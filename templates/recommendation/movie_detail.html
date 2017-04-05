@@ -13,21 +13,30 @@
             alt="{{ movie.title }} Poster" class="img-responsive"></p>
         <p><strong>IMDB_id:</strong> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}">
             {{ movie.title }}</a></p>
+        <p><strong>Release date:</strong> {{ movie.release_date }}</p>
         <p><strong>Overview:</strong> {{ movie.overview }}</p>
-        <p><strong>Genre:</strong> {{ movie.display_genre }}</p>
-        <p><strong>Keyword:</strong> {{ movie.display_keyword }}</p>
+        <p><strong>Genre:</strong>
+            {% for genre in movie.genres.all %}
+                {{ genre }}
+            {% endfor %}
+        </p>
+        <p><strong>Keywords:</strong>
+            {% for keyword in movie.keywords.all %}
+                {{ keyword }}
+            {% endfor %}
+        </p>
         <p><strong>Cast:</strong>
-            {% for cast in movies.display_cast  %}
-                <a href="/MovieAdvice/people/{{ cast.id }}">
+            {% for cast in movie.moviecast_set.all reversed %}
+                <a href="/recommendation/person/{{ cast.person_id }}">
                     {{ cast.person }}
-                </a> - {{ cast.movie_character }},
+                </a> - {{ cast.movie_character }}
             {% endfor %}
         </p>
         <p><strong>Crew:</strong>
-            {% for crew in movies.display_crew  %}
-                <a href="/MovieAdvice/people/{{ crew.id }}">
+            {% for crew in movie.moviecrew_set.all reversed  %}
+                <a href="/recommendation/person/{{ crew.person_id }}">
                     {{ crew.person }}
-                </a> - {{ crew.job }},
+                </a> - {{ crew.job }}
             {% endfor %}
         </p>
     </div>

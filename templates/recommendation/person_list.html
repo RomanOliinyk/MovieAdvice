@@ -1,4 +1,4 @@
-{% extends "MovieAdvice/main.html" %}
+{% extends "recommendation/main.html" %}
 
 {% block title %}
     People list
@@ -11,9 +11,9 @@
         <h1 class="display-3">Movie list</h1>
 
         <div class="row">
-        {% if people_list %}
+        {% if person_list %}
             <ul class="media-list">
-            {% for person in people_list %}
+            {% for person in person_list %}
 
                 <li class="media">
                     <div class="media-left">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <a href="{{ person.get_absolute_url }}">
+                            <a href="{{ person.person_id }}">
                                 {{ person.name }}
                             </a>
                         </h4>

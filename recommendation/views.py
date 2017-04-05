@@ -15,25 +15,44 @@ class MovieListView(generic.ListView):
     template_name = 'recommendation/movie_list.html'
     paginate_by = 10
 
-    def get_queryset(self):
-        return Movie.objects.order_by('-vote_count')
+    @property
+    def filtered_genres(self):
+        if not hasattr(self, '_filtered_genres'):
+            checked_genres = self.request.GET.getlist('genre')
+            self._filtered_genres = Genre.objects.filter(
+                pk__in=checked_genres or [])
+        return self._filtered_genres
 
+    def get_queryset(self):
+        query = super(MovieListView, self).get_queryset()
+        if self.filtered_genres :
+            genres = self.filtered_genres
+            for genre in genres:
+                query = query.filter(genres=genre)
+        return query.order_by('-vote_count')
+
+    def get_context_data(self, **kwargs):
+        context = super(MovieListView, self).get_context_data(**kwargs)
+        context['genres'] = Genre.objects.all()
+        context['filtered_genres'] = self.filtered_genres
+        return context
+
+# Movie detail page
 class MovieDetailView(generic.DetailView):
     model = Movie
     template_name = 'recommendation/movie_detail.html'
 
-#def index(request):
-    #movie_list = Movie.objects.order_by('-vote_count')[:10]
-    #context = {
-        #'movie_list': movie_list,
-    #}
-    #return render(request, 'recommendation/index.html', context)
+# Person list page
+class PersonListView(generic.ListView):
+    model = Person
+    template_name = 'recommendation/person_list.html'
+    paginate_by = 10
 
-#def detail(request, movie_id):
-#    try:
-#        movie = Movie.objects.get(pk=movie_id)
-#        cast = Movie.moviecast_set
-#    except Movie.DoesNotExist:
-#        raise Http404('Movie does not exist!')
-#    return render(request, 'recommendation/detail.html', {'movie': movie,
-#        'cast': cast})
+    def get_queryset(self):
+
+        return Person.objects.order_by('-popularity')
+
+# Person detail page
+class PersonDetailView(generic.DetailView):
+    model = Person
+    template_name = 'recommendation/person_detail.html'

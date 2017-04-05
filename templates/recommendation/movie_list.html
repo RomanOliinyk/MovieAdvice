@@ -10,6 +10,26 @@
     <div class="container">
         <h1 class="display-3">Movie list</h1>
 
+        <!-- Form -->
+        <div class="row">
+            <h4>Choose genres</h4>
+            <form class="" action="" method="" id="my-form">
+                {% for genre in genres %}
+                    <label>
+                        <input type="checkbox" name="genre"
+                            {% if genre in filtered_genres %}
+                            c   hecked="checked"
+                            {% endif %}
+                        value="{{ genre.genre_id }}">
+                        {{ genre }}
+                    </label>
+                {% endfor %}
+                <button type="submit" value="genre_list" class="btn btn-default">
+                    Search
+                </button>
+            </form>
+        </div>
+
         <div class="row">
         {% if movie_list %}
             <ul class="media-list">
@@ -24,12 +44,17 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">
+                        <h3 class="media-heading">
                             <a href="{{ movie.movie_id }}">
                                 {{ movie.title }}
                             </a>
+                        </h3>
+                        <h4><strong>Genre:</strong>
+                            {% for genre in movie.genres.all %}
+                                <i>{{ genre }}</i>
+                            {% endfor %}
                         </h4>
-                        Genre: {{ movie.display_genre }}
+
                     </div>
 
                 </li>
