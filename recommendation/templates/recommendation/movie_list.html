@@ -1,0 +1,60 @@
+{% extends "recommendation/main.html" %}
+
+{% block title %}
+    Movie list
+{% endblock %}
+
+{% block body %}
+<!-- Movie List Page -->
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Movie list</h1>
+
+        <div class="row">
+        {% if movie_list %}
+            <ul class="media-list">
+            {% for movie in movie_list %}
+
+                <li class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" width="128" height="192"
+                            src="https://image.tmdb.org/t/p/w640{{ movie.poster_path }}"
+                            alt="{{ movie.title }} Poster">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="{{ movie.movie_id }}">
+                                {{ movie.title }}
+                            </a>
+                        </h4>
+                        Genre: {{ movie.display_genre }}
+                    </div>
+
+                </li>
+            {% endfor %}
+            </ul>
+            {% if is_paginated %}
+                <div class="pagination">
+                    <span class="page-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                    <span class="page-current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span> {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next</a> {% endif %}
+                    </span>
+                </div>
+            {% endif%}
+
+        {% else %}
+            <div class="col-xs-12">
+                There are no movies=(
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

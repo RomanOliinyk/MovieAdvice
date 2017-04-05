@@ -1,9 +1,9 @@
 from django.db import models
 from django.urls import reverse
 
-class Genres(models.Model):
+class Genre(models.Model):
     genre_id = models.IntegerField(primary_key=True)
-    name = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -15,7 +15,7 @@ class Genres(models.Model):
 
 class Keyword(models.Model):
     keyword_id = models.IntegerField(primary_key=True)
-    name = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -30,9 +30,8 @@ class MovieCast(models.Model):
         blank=True, null=True)
     person = models.ForeignKey('Person', on_delete=models.CASCADE,
         blank=True, null=True)
-    movie_character = models.TextField(blank=True, null=True)
+    movie_character = models.CharField(max_length=300, blank=True, null=True)
     cast_order = models.IntegerField(blank=True, null=True)
-    cast_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = True
@@ -48,8 +47,8 @@ class MovieCrew(models.Model):
         blank=True, null=True)
     person = models.ForeignKey('Person', on_delete=models.CASCADE,
         blank=True, null=True)
-    department = models.TextField(blank=True, null=True)
-    job = models.TextField(blank=True, null=True)
+    department = models.CharField(max_length=25, blank=True, null=True)
+    job = models.CharField(max_length=70, blank=True, null=True)
 
     class Meta:
         managed = True
@@ -59,7 +58,7 @@ class MovieCrew(models.Model):
         return '{}, {}, {}'.format(self.movie, self.person, self.job)
 
 
-class MovieGenres(models.Model):
+class MovieGenre(models.Model):
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE,
         blank=True, null=True)
     genre = models.ForeignKey('Genre', on_delete=models.CASCADE,
@@ -103,6 +102,15 @@ class Movie(models.Model):
     runtime = models.IntegerField(blank=True, null=True)
     vote_count = models.IntegerField(blank=True, null=True)
 
+    # custom connecitons fields
+    genres = models.ManyToManyField('Genre', through='MovieGenre')
+    keywords = models.ManyToManyField('Keyword', through='MovieKeyword')
+
+    #cast = self.object.MovieCast.all()
+    #cast = models.ManyToManyField('Person', through='MovieCast')
+    #crew = models.ManyToManyField('Person', through='MovieCrew')
+
+
 
     class Meta:
         managed = True
@@ -114,16 +122,16 @@ class Movie(models.Model):
 
 class Person(models.Model):
     person_id = models.IntegerField(primary_key=True)
-    imdb_id = models.TextField(blank=True, null=True)
-    name = models.TextField(blank=True, null=True)
+    imdb_id = models.CharField(max_length=11, blank=True, null=True)
+    name = models.CharField(max_length=150, blank=True, null=True)
     biography = models.TextField(blank=True, null=True)
-    birthday = models.TextField(blank=True, null=True)
-    deathday = models.TextField(blank=True, null=True)
+    birthday = models.DateField(blank=True, null=True)
+    deathday = models.DateField(blank=True, null=True)
     gender = models.IntegerField(blank=True, null=True)
-    place_of_birth = models.TextField(blank=True, null=True)
-    popularity = models.DecimalField(max_digits=65535,
-        decimal_places=65535, blank=True, null=True)
-    profile_path = models.TextField(blank=True, null=True)
+    place_of_birth = models.CharField(max_length=150, blank=True, null=True)
+    popularity = models.DecimalField(max_digits=11,
+        decimal_places=6, blank=True, null=True)
+    profile_path = models.CharField(max_length=34, blank=True, null=True)
 
     class Meta:
         managed = True

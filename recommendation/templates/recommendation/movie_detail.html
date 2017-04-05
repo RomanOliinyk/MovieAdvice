@@ -1,0 +1,35 @@
+{% extends "recommendation/main.html" %}
+
+{% block title %}
+    MovieAdvice {{ movie.title }}
+{% endblock %}
+
+{% block body %}
+<!-- Movie Detail Page -->
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">{{ movie.title }}</h1>
+        <p><img src="https://image.tmdb.org/t/p/w640{{ movie.poster_path }}"
+            alt="{{ movie.title }} Poster" class="img-responsive"></p>
+        <p><strong>IMDB_id:</strong> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}">
+            {{ movie.title }}</a></p>
+        <p><strong>Overview:</strong> {{ movie.overview }}</p>
+        <p><strong>Genre:</strong> {{ movie.display_genre }}</p>
+        <p><strong>Keyword:</strong> {{ movie.display_keyword }}</p>
+        <p><strong>Cast:</strong>
+            {% for cast in movies.display_cast  %}
+                <a href="/MovieAdvice/people/{{ cast.id }}">
+                    {{ cast.person }}
+                </a> - {{ cast.movie_character }},
+            {% endfor %}
+        </p>
+        <p><strong>Crew:</strong>
+            {% for crew in movies.display_crew  %}
+                <a href="/MovieAdvice/people/{{ crew.id }}">
+                    {{ crew.person }}
+                </a> - {{ crew.job }},
+            {% endfor %}
+        </p>
+    </div>
+</div>
+{% endblock %}

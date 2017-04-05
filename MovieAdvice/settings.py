@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'recommendation.apps.RecommendationConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS': {
-            'options': '-c search_path=Movie_Advice_schema'
-        }
+            'options': '-c search_path="Movie_Advice_schema"'
+        },
         'NAME': 'Movie_Advice',
         'USER': 'RomanOliinyk',
         'HOST': 'localhost',

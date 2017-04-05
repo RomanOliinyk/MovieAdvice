@@ -1,0 +1,45 @@
+{% extends "MovieAdvice/main.html" %}
+
+{% block title %}
+    People list
+{% endblock %}
+
+{% block body %}
+<!-- Movie List Page -->
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">Movie list</h1>
+
+        <div class="row">
+        {% if people_list %}
+            <ul class="media-list">
+            {% for person in people_list %}
+
+                <li class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" width="128" height="192"
+                            src="https://image.tmdb.org/t/p/w640{{ person.profile_path }}"
+                            alt="{{ person.name }} Poster">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a href="{{ person.get_absolute_url }}">
+                                {{ person.name }}
+                            </a>
+                        </h4>
+                    </div>
+
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <div class="col-xs-12">
+                There are no people=(
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

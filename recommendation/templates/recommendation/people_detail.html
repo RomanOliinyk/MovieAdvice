@@ -1,0 +1,23 @@
+{% extends "MovieAdvice/main.html" %}
+
+{% block title %}
+    MovieAdvice {{ people.name }}
+{% endblock %}
+
+{% block body %}
+<!-- Movie Detail Page -->
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-3">{{ people.name }}</h1>
+        <p><img src="https://image.tmdb.org/t/p/w640{{ people.profile_path }}"
+            alt="{{ people.name }} Poster" class="img-responsive"></p>
+        <p><strong>IMDB_id:</strong>
+            <a href="http://www.imdb.com/name/{{ people.imdb_id }}/">
+                {{ people.name }}</a></p>
+        <p><strong>Date of birth:</strong> {{ people.birthday }}</p>
+        <p><strong>Place of birth:</strong> {{ people.place_of_birth }}</p>
+        <p><strong>Biography:</strong> {{ people.biography }}</p>
+
+    </div>
+</div>
+{% endblock %}
