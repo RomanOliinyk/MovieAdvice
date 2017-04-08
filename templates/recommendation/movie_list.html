@@ -14,20 +14,37 @@
         <div class="row">
             <h4>Choose genres</h4>
             <form class="" action="" method="" id="my-form">
+                <p>
                 {% for genre in genres %}
                     <label>
                         <input type="checkbox" name="genre"
                             {% if genre in filtered_genres %}
-                            c   hecked="checked"
+                            checked="checked"
                             {% endif %}
                         value="{{ genre.genre_id }}">
                         {{ genre }}
                     </label>
                 {% endfor %}
+                </p>
+
+                <p>
                 <button type="submit" value="genre_list" class="btn btn-default">
                     Search
                 </button>
+                </p>
             </form>
+            <p>
+            {% if years_list %}
+                <select class="" name="year1">
+                    <<option value="">~~~~</option>
+                    {% for year in years_list reversed %}
+                        <option value="{{ year.year }}">
+                            {{ year.year }}
+                        </option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+            </p>
         </div>
 
         <div class="row">
