@@ -1,0 +1,11 @@
+{{ movie.title }},
+
+{% for genre in movie.genres.all %}
+    {{ genre }}
+{% endfor %}
+
+
+{% for item in cast %}
+    {{ item }}
+
+{% endfor %}

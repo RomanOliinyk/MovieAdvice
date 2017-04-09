@@ -1,0 +1,36 @@
+<!-- Movie Filter -->
+<div class="row">
+    <h4>Choose genres</h4>
+    <form class="" action="" method="" id="my-form">
+        <p>
+        {% if years_list %}
+            <select class="" name="year">
+                <<option value="any">~~~~</option>
+                {% for year in years_list reversed %}
+                    <option value="{{ year.year }}">
+                        {{ year.year }}
+                    </option>
+                {% endfor %}
+            </select>
+        {% endif %}
+        </p>
+        <p>
+        {% for genre in genres %}
+            <label>
+                <input type="checkbox" name="genre"
+                    {% if genre in filtered_genres %}
+                    checked="checked"
+                    {% endif %}
+                value="{{ genre.genre_id }}">
+                {{ genre }}
+            </label>
+        {% endfor %}
+        </p>
+
+        <p>
+        <button type="submit" value="genre_list" class="btn btn-default">
+            Search
+        </button>
+        </p>
+    </form>
+</div>

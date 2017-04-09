@@ -1,0 +1,41 @@
+Hey there, got a question about using multiple intermediate in Django.
+I am trying to make a little movie-related website with tables such us:
+Movie, Person, MovieCast, MovieCrew
+
+    class Movie(models.Model):
+        movie_id = models.IntegerField(primary_key=True)
+        title = models.CharField(max_length=150, blank=True, null=True)
+
+    class Person(models.Model):
+        person_id = models.IntegerField(primary_key=True)
+        name = models.CharField(max_length=150, blank=True, null=True)
+
+    class MovieCast(models.Model):
+        movie = models.ForeignKey('Movie', on_delete=models.CASCADE,
+            blank=True, null=True)
+        person = models.ForeignKey('Person', on_delete=models.CASCADE,
+            blank=True, null=True)
+        movie_character = models.CharField(max_length=300, blank=True, null=True)
+        cast_order = models.IntegerField(blank=True, null=True)
+
+    class MovieCrew(models.Model):
+        movie = models.ForeignKey('Movie', on_delete=models.CASCADE,
+            blank=True, null=True)
+        person = models.ForeignKey('Person', on_delete=models.CASCADE,
+            blank=True, null=True)
+        department = models.CharField(max_length=25, blank=True, null=True)
+        job = models.CharField(max_length=70, blank=True, null=True)
+
+
+I try to add 2 ManyToManyFields to Movie model with through each intermediate model, like so:
+
+    cast = models.ManyToManyField('Person', through='MovieCast')
+    crew = models.ManyToManyField('Person', through='MovieCrew')
+
+I can safely, create 1 of 2 listed above, but Django doesn't let me create 2 Many to many fields, with such error:
+
+    ERRORS:
+    recommendation.Movie.cast: (fields.E304) Reverse accessor for 'Movie.cast' clashes with reverse accessor
+            HINT: Add or change a related_name argument to the definition for 'Movie.cast' or 'Movie.crew'.
+    recommendation.Movie.crew: (fields.E304) Reverse accessor for 'Movie.crew' clashes with reverse accessor
+            HINT: Add or change a related_name argument to the definition for 'Movie.crew' or 'Movie.cast'.
