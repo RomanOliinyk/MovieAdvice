@@ -49,8 +49,8 @@ class MovieListView(generic.ListView):
         context = super(MovieListView, self).get_context_data(**kwargs)
         context['genres'] = Genre.objects.all()
         context['filtered_genres'] = self.filtered_genres
-        years = Movie.objects.all().dates('release_date', 'year')
-        context['years_list'] = years
+        #years = Movie.objects.all().dates('release_date', 'year')
+        #context['years_list'] = years
         return context
 
 # Movie detail page
