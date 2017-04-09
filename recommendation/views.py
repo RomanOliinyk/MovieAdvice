@@ -24,13 +24,6 @@ class MovieListView(generic.ListView):
                 pk__in=checked_genres or [])
         return self._filtered_genres
 
-    #@property
-    #def filtered_years(self):
-        #if not hasattr(self, '_filtered_years'):
-            #years_list = self.request.GET.get('year1')
-        #print (years_list)
-        #return years_list
-
 
     def get_queryset(self):
         query = super(MovieListView, self).get_queryset()
@@ -51,6 +44,9 @@ class MovieListView(generic.ListView):
         context['filtered_genres'] = self.filtered_genres
         #years = Movie.objects.all().dates('release_date', 'year')
         #context['years_list'] = years
+        context['query_url'] = self.request.GET.urlencode()
+        print (context['query_url'])
+        #print (self.request.META['QUERY_STRING'])
         return context
 
 # Movie detail page
