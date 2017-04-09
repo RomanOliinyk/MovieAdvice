@@ -19,6 +19,7 @@ class MovieListView(generic.ListView):
     def filtered_genres(self):
         if not hasattr(self, '_filtered_genres'):
             checked_genres = self.request.GET.getlist('genre')
+            #print (checked_genres)
             self._filtered_genres = Genre.objects.filter(
                 pk__in=checked_genres or [])
         return self._filtered_genres
@@ -33,6 +34,7 @@ class MovieListView(generic.ListView):
 
     def get_queryset(self):
         query = super(MovieListView, self).get_queryset()
+        #print (query)
         #if self.filtered_years:
             #years = self.filtered_years
             #print (years)
