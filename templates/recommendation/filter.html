@@ -3,10 +3,10 @@
     <h4>Choose genres</h4>
     <form class="" action="" method="" id="my-form">
         <p>
-        {% if years_list %}
+        {% if years %}
             <select class="" name="year">
                 <<option value="any">~~~~</option>
-                {% for year in years_list reversed %}
+                {% for year in years reversed %}
                     <option value="{{ year.year }}">
                         {{ year.year }}
                     </option>
