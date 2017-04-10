@@ -19,7 +19,6 @@ class MovieListView(generic.ListView):
     def filtered_genres(self):
         if not hasattr(self, '_filtered_genres'):
             checked_genres = self.request.GET.getlist('genre')
-            #print (checked_genres)
             self._filtered_genres = Genre.objects.filter(
                 pk__in=checked_genres or [])
         return self._filtered_genres
@@ -27,7 +26,6 @@ class MovieListView(generic.ListView):
 
     def get_queryset(self):
         query = super(MovieListView, self).get_queryset()
-        #print (query)
         #if self.filtered_years:
             #years = self.filtered_years
             #print (years)
@@ -44,9 +42,14 @@ class MovieListView(generic.ListView):
         context['filtered_genres'] = self.filtered_genres
         #years = Movie.objects.all().dates('release_date', 'year')
         #context['years_list'] = years
-        context['query_url'] = self.request.GET.urlencode()
-        print (context['query_url'])
-        #print (self.request.META['QUERY_STRING'])
+
+        # query_url for pagination without ('page=N')
+        query_url = self.request.GET.urlencode()
+        splited = query_url.split('&')
+        if splited[0][0:4] == 'page':
+            query_url = '&'.join(splited[1:])
+        context['query_url'] = query_url
+
         return context
 
 # Movie detail page
