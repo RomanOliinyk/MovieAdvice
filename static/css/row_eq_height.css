@@ -32,8 +32,8 @@ h4 {
   padding-bottom: 15px;
   background-image: linear-gradient(to bottom, #fff 0px, #f8f8f8 100%);
   background-image: linear-gradient(to bottom, #fff 0px, #f8f8f8 100%);
-  border: 1px solid #ddd;
-  border: 1px solid rgba(86,61,124,.2);
+  /* border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2); */
 }
 
 /*

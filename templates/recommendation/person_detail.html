@@ -14,9 +14,21 @@
         <p><strong>IMDB_id:</strong>
             <a href="http://www.imdb.com/name/{{ person.imdb_id }}/">
                 {{ person.name }}</a></p>
-        <p><strong>Date of birth:</strong> {{ person.birthday }}</p>
-        <p><strong>Place of birth:</strong> {{ person.place_of_birth }}</p>
-        <p><strong>Biography:</strong> {{ person.biography }}</p>
+        <p><strong>Date of birth: </strong> {{ person.birthday }}</p>
+        <p><strong>Place of birth: </strong> {{ person.place_of_birth }}</p>
+        <p><strong>Biography: </strong> {{ person.biography }}</p>
+        <p><strong>Filmorgraphy(CAST): </strong>
+            {% for movie in person.moviecast_set.all %}
+                <a href="#">{{ movie.movie }}</a>
+                - {{ movie.movie_character }}
+            {% endfor %}
+        </p>
+        <p><strong>Filmorgraphy(CREW): </strong>
+            {% for movie in person.moviecrew_set.all %}
+                <a href="#">{{ movie.movie }}</a>
+                - {{ movie.job }}
+            {% endfor %}
+        </p>
 
     </div>
 </div>
