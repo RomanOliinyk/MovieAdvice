@@ -1,6 +1,13 @@
+import operator
+from functools import reduce
+
 from django.http import Http404
 from django.shortcuts import render
 from django.views import generic
+from django.db.models import Q
+
+# Postgres Search module
+#from django.contrib.postgres.search import SearchVector
 
 from .models import *
 
@@ -41,6 +48,15 @@ class MovieListView(generic.ListView):
             for genre in genres:
                 query = query.filter(genres=genre)
 
+        # trying out search
+        query_search = self.request.GET.get('q')
+        if query_search:
+            query_list = query_search.split()
+            query = query.filter(
+                reduce(operator.and_,
+                    (Q(title__search=q) for q in query_list)))
+
+
         return query.order_by('-vote_count')
 
     def get_context_data(self, **kwargs):
@@ -63,6 +79,20 @@ class MovieListView(generic.ListView):
 class MovieDetailView(generic.DetailView):
     model = Movie
     template_name = 'recommendation/movie_detail.html'
+
+    #def simular_movies_genre(self, **kwargs):
+        #context = super(MovieDetailView, self).get_context_data(**kwargs)
+        #genres = self.model.get_object('genres')
+        #print (1)
+        #for item in context['movie']:
+            #print (item)
+
+
+    #def get_context_data(self, **kwargs):
+        #context = super(MovieDetailView, self).get_context_data(**kwargs)
+        #context['genres_test'] = self.simular_movies_genre()
+        #print (context['genres_test'])
+        #return context
 
 # Person list page
 class PersonListView(generic.ListView):

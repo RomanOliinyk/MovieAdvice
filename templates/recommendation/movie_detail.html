@@ -17,7 +17,7 @@
         <p><strong>Overview:</strong> {{ movie.overview }}</p>
         <p><strong>Genre:</strong>
             {% for genre in movie.genres.all %}
-                {{ genre }}
+                {{ genre.name }}
             {% endfor %}
         </p>
         <p><strong>Keywords:</strong>
@@ -25,16 +25,20 @@
                 {{ keyword }}
             {% endfor %}
         </p>
+        <p><strong>Recommendation(GENRE):</strong>
+
+
+        </p>
         <p><strong>Cast:</strong>
             {% for cast in movie.moviecast_set.all reversed %}
-                <a href="/recommendation/person/{{ cast.person_id }}">
+                <a href="{% url 'recommendation:person_detail' pk=cast.person_id %}">
                     {{ cast.person }}
                 </a> - {{ cast.movie_character }}
             {% endfor %}
         </p>
         <p><strong>Crew:</strong>
             {% for crew in movie.moviecrew_set.all reversed  %}
-                <a href="/recommendation/person/{{ crew.person_id }}">
+                <a href="{% url 'recommendation:person_detail' pk=crew.person_id %}">
                     {{ crew.person }}
                 </a> - {{ crew.job }}
             {% endfor %}
