@@ -80,19 +80,80 @@ class MovieDetailView(generic.DetailView):
     model = Movie
     template_name = 'recommendation/movie_detail.html'
 
-    #def simular_movies_genre(self, **kwargs):
-        #context = super(MovieDetailView, self).get_context_data(**kwargs)
-        #genres = self.model.get_object('genres')
-        #print (1)
-        #for item in context['movie']:
-            #print (item)
+    def simular_movies_genre(self, **kwargs):
+        context = super(MovieDetailView, self).get_context_data(**kwargs)
+        genre_list = []
+        for item in context['movie'].genres.all():
+            genre_list.append(item.genre_id)
+        movie_query = Movie.objects.all()
+        genre_query = []
+        genre_recommendation = []
+
+        if genre_list:
+            while len(genre_list) > 0:
+                modified_query = movie_query
+                for genre in genre_list:
+                    modified_query = modified_query.filter(genres=genre)
+                genre_list.pop()
+                genre_query.append(modified_query)
+        #print (genre_list)
+        #print (type(modified_query))
+        #print (len(modified_query))
+        #print (len(genre_query))
+        movie_id = context['movie'].movie_id
+        movie_vote = context['movie'].vote_average
+        movie_pop = context['movie'].popularity
+        #print (movie_vote)
+        #print (movie_pop)
+        for group in genre_query:
+            for item in group:
+                #print (item.movie_id)
+                #print (movie_id)
+                if len(genre_recommendation) >= 5:
+                    break
+                if (item.movie_id != movie_id) and (
+                    item not in genre_recommendation) and (
+                    movie_vote -2 <= item.vote_average <= movie_vote +2):
+                    genre_recommendation.append(item)
+
+        #print (len(genre_recommendation))
+        #print (genre_recommendation)
+
+        return genre_recommendation
+
+    def simular_movies_keyword(self, **kwargs):
+        context = super(MovieDetailView, self).get_context_data(**kwargs)
+        keyword_list = []
+
+        for item in context['movie'].keywords.all():
+            keyword_list.append(item.keyword_id)
+        print (1)
+        print (keyword_list)
+        movie_query = Movie.objects.all()
+        keyword_query = []
+        top_keyword = 0
+        keyword_recomendation = []
+        #while len(keyword_recomendation) < 5:
+            #pass
+        for keyword in keyword_list:
+            temp_query = movie_query.filter(keywords=keyword)
+            print ('Keyword: ' + str(keyword))
+            print (len(keyword_query))
+            print (len(temp_query))
+            if len(temp_query) > len(keyword_query):
+                keyword_query = temp_query
+                top_keyword = keyword
+        keyword_list.remove(top_keyword)
+        print (keyword_list)
+        print (len(keyword_query))
 
 
-    #def get_context_data(self, **kwargs):
-        #context = super(MovieDetailView, self).get_context_data(**kwargs)
-        #context['genres_test'] = self.simular_movies_genre()
-        #print (context['genres_test'])
-        #return context
+    def get_context_data(self, **kwargs):
+        context = super(MovieDetailView, self).get_context_data(**kwargs)
+        context['genre_query'] = self.simular_movies_genre()
+        context['keyword_query'] = self.simular_movies_keyword()
+
+        return context
 
 # Person list page
 class PersonListView(generic.ListView):

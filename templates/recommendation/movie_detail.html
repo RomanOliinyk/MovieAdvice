@@ -25,10 +25,24 @@
                 {{ keyword }}
             {% endfor %}
         </p>
-        <p><strong>Recommendation(GENRE):</strong>
-
-
-        </p>
+        {% if genre_query %}
+            <p><strong>Recommendation(GENRE): </strong>
+                {% for movie in genre_query %}
+                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                        {{ movie.title }}
+                    </a>
+                {% endfor %}
+            </p>
+        {% endif %}
+        {% if keyword_query %}
+            <p><strong>Recommendation(KEYWORD): </strong>
+                {% for movie in keyword_query %}
+                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                        {{ movie.title }}
+                    </a>
+                {% endfor %}
+            </p>
+        {% endif %}
         <p><strong>Cast:</strong>
             {% for cast in movie.moviecast_set.all reversed %}
                 <a href="{% url 'recommendation:person_detail' pk=cast.person_id %}">
