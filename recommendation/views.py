@@ -127,25 +127,33 @@ class MovieDetailView(generic.DetailView):
 
         for item in context['movie'].keywords.all():
             keyword_list.append(item.keyword_id)
-        print (1)
-        print (keyword_list)
-        movie_query = Movie.objects.all()
-        keyword_query = []
-        top_keyword = 0
-        keyword_recomendation = []
-        #while len(keyword_recomendation) < 5:
-            #pass
-        for keyword in keyword_list:
-            temp_query = movie_query.filter(keywords=keyword)
-            print ('Keyword: ' + str(keyword))
-            print (len(keyword_query))
-            print (len(temp_query))
-            if len(temp_query) > len(keyword_query):
-                keyword_query = temp_query
-                top_keyword = keyword
-        keyword_list.remove(top_keyword)
-        print (keyword_list)
-        print (len(keyword_query))
+        movie_id = context['movie'].movie_id
+        movie_query = Movie.objects.all().exclude(movie_id=movie_id)
+
+        while len(keyword_list) > 1:
+            if len(movie_query) < 20:
+                break
+            keyword_query = []
+            top_keyword = None
+            empty_keyword_list = []
+
+            for item in keyword_list:
+                temp_query = movie_query.filter(keywords=item)
+                if len(temp_query) == 0:
+                    empty_keyword_list.append(item)
+                elif len(temp_query) > len(keyword_query):
+                    keyword_query = temp_query
+                    top_keyword = item
+
+            if top_keyword is not None:
+                keyword_list.remove(top_keyword)
+            if len(empty_keyword_list) > 0:
+                keyword_list = list(set(keyword_list)-set(empty_keyword_list))
+
+            movie_query = keyword_query
+
+        return keyword_query
+
 
 
     def get_context_data(self, **kwargs):
