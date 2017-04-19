@@ -154,6 +154,15 @@ class MovieDetailView(generic.DetailView):
         context = super(MovieDetailView, self).get_context_data(**kwargs)
         context['genre_query'] = self.simular_movies_genre()
         context['keyword_query'] = self.simular_movies_keyword()
+        context['cast_list'] = list(
+            reversed(context['movie'].moviecast_set.all()))
+        context['cast_length'] = len(context['cast_list'])
+        context['crew_list'] = list(
+            reversed(context['movie'].moviecrew_set.exclude(
+            job='Director')))
+        context['crew_length'] = len(context['crew_list'])
+        context['director'] = context['movie'].moviecrew_set.filter(
+            job='Director')
 
         return context
 

@@ -39,9 +39,12 @@
                             </a>
                         </h3>
                         <h4><strong>Genre:</strong>
-                            {% for genre in movie.genres.all %}
-                                <i>{{ genre }}</i>
-                            {% endfor %}
+                        {% for genre in movie.genres.all %}
+                            <a href="/recommendation/movie/?genre={{genre.keyword_id}}"
+                            class="btn btn-default btn-sm">
+                                {{ genre.name }}
+                            </a>
+                        {% endfor %}
                         </h4>
 
                     </div>

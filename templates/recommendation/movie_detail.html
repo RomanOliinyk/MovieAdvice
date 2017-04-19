@@ -12,20 +12,32 @@
         <p><img src="https://image.tmdb.org/t/p/w640{{ movie.poster_path }}"
             alt="{{ movie.title }} Poster" class="img-responsive"
             style="max-width: 200px"></p>
-        <p><strong>IMDB_id:</strong> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}">
+        <p><strong>IMDB:</strong> <a href="http://www.imdb.com/title/{{ movie.imdb_id }}">
             {{ movie.title }}</a></p>
         <p><strong>Release date:</strong> {{ movie.release_date }}</p>
+        {% if director %}
+        <p><strong>Director:</strong>
+            {% for item in director %}
+            <a href="{% url 'recommendation:person_detail' pk=item.person_id %}">
+                {{ item.person }}
+            </a>
+            {% endfor %}
+        </p>
+        {% endif %}
         <p><strong>Overview:</strong> {{ movie.overview }}</p>
         <p><strong>Genre:</strong>
             {% for genre in movie.genres.all %}
-                <a href="http://127.0.0.1:8000/recommendation/movie/?genre={{genre.genre_id}}">
+                <a href="/recommendation/movie/?genre={{genre.genre_id}}"
+                class="btn btn-default">
                     {{ genre.name }}
                 </a>
+
             {% endfor %}
         </p>
         <p><strong>Keywords:</strong>
             {% for keyword in movie.keywords.all %}
-                <a href="http://127.0.0.1:8000/recommendation/movie/?keyword={{keyword.keyword_id}}">
+                <a href="/recommendation/movie/?keyword={{keyword.keyword_id}}"
+                class="btn btn-default">
                     {{ keyword.name }}
                 </a>
             {% endfor %}
@@ -33,35 +45,74 @@
         {% if genre_query %}
             <p><strong>Recommendation(GENRE): </strong>
                 {% for movie in genre_query %}
-                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                <span>
+                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}"
+                    class="btn btn-primary">
                         {{ movie.title }}
                     </a>
+                </span>
                 {% endfor %}
             </p>
         {% endif %}
         {% if keyword_query %}
             <p><strong>Recommendation(KEYWORD): </strong>
                 {% for movie in keyword_query %}
-                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                <span>
+                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}"
+                    class="btn btn-primary">
                         {{ movie.title }}
                     </a>
+                </span>
                 {% endfor %}
             </p>
         {% endif %}
+        {% if cast_list %}
         <p><strong>Cast:</strong>
-            {% for cast in movie.moviecast_set.all reversed %}
+            <span>
+                {% for cast in cast_list|slice:":5" %}
                 <a href="{% url 'recommendation:person_detail' pk=cast.person_id %}">
                     {{ cast.person }}
                 </a> - {{ cast.movie_character }}
-            {% endfor %}
+                {% endfor %}
+            </span>
+            {% if cast_length > 5 %}
+                <button type="button" class="overfit btn btn-info">
+                    Show more!
+                </button>
+                <span class="overfit_people">
+                    {% for cast in cast_list|slice:"5:" %}
+                    <a href="{% url 'recommendation:person_detail' pk=cast.person_id %}">
+                        {{ cast.person }}
+                    </a> - {{ cast.movie_character }}
+                    {% endfor %}
+                </span>
+            {% endif %}
         </p>
+        {% endif %}
+        {% if crew_list %}
         <p><strong>Crew:</strong>
-            {% for crew in movie.moviecrew_set.all reversed  %}
+            <span>
+                {% for crew in crew_list|slice:":5" %}
                 <a href="{% url 'recommendation:person_detail' pk=crew.person_id %}">
                     {{ crew.person }}
                 </a> - {{ crew.job }}
-            {% endfor %}
+                {% endfor %}
+            </span>
+            {% if crew_length > 5 %}
+                <button type="button" class="overfit btn btn-info">
+                    Show more!
+                </button>
+                <span class="overfit_people">
+                    {% for crew in crew_list|slice:"5:" %}
+                    <a href="{% url 'recommendation:person_detail' pk=crew.person_id %}">
+                        {{ crew.person }}
+                    </a> - {{ crew.job }}
+                    {% endfor %}
+                </span>
+            {% endif %}
         </p>
+        {% endif %}
+
     </div>
 </div>
 {% endblock %}
