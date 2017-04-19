@@ -96,28 +96,19 @@ class MovieDetailView(generic.DetailView):
                     modified_query = modified_query.filter(genres=genre)
                 genre_list.pop()
                 genre_query.append(modified_query)
-        #print (genre_list)
-        #print (type(modified_query))
-        #print (len(modified_query))
-        #print (len(genre_query))
+
         movie_id = context['movie'].movie_id
         movie_vote = context['movie'].vote_average
         movie_pop = context['movie'].popularity
-        #print (movie_vote)
-        #print (movie_pop)
+
         for group in genre_query:
             for item in group:
-                #print (item.movie_id)
-                #print (movie_id)
                 if len(genre_recommendation) >= 5:
                     break
                 if (item.movie_id != movie_id) and (
                     item not in genre_recommendation) and (
                     movie_vote -2 <= item.vote_average <= movie_vote +2):
                     genre_recommendation.append(item)
-
-        #print (len(genre_recommendation))
-        #print (genre_recommendation)
 
         return genre_recommendation
 
@@ -130,7 +121,7 @@ class MovieDetailView(generic.DetailView):
         movie_id = context['movie'].movie_id
         movie_query = Movie.objects.all().exclude(movie_id=movie_id)
 
-        while len(keyword_list) > 1:
+        while len(keyword_list) >= 1:
             if len(movie_query) < 20:
                 break
             keyword_query = []
@@ -152,7 +143,10 @@ class MovieDetailView(generic.DetailView):
 
             movie_query = keyword_query
 
-        return keyword_query
+        if len(keyword_query) > 35:
+            keyword_query = None
+        if keyword_query is not None:
+            return keyword_query
 
 
 

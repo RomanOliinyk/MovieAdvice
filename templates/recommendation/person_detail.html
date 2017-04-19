@@ -20,13 +20,17 @@
         <p><strong>Biography: </strong> {{ person.biography }}</p>
         <p><strong>Filmorgraphy(CAST): </strong>
             {% for movie in person.moviecast_set.all %}
-                <a href="#">{{ movie.movie }}</a>
+                <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                    {{ movie.movie }}
+                </a>
                 - {{ movie.movie_character }}
             {% endfor %}
         </p>
         <p><strong>Filmorgraphy(CREW): </strong>
             {% for movie in person.moviecrew_set.all %}
-                <a href="#">{{ movie.movie }}</a>
+                <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                    {{ movie.movie }}
+                </a>
                 - {{ movie.job }}
             {% endfor %}
         </p>

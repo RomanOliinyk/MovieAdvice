@@ -18,12 +18,16 @@
         <p><strong>Overview:</strong> {{ movie.overview }}</p>
         <p><strong>Genre:</strong>
             {% for genre in movie.genres.all %}
-                {{ genre.name }}
+                <a href="http://127.0.0.1:8000/recommendation/movie/?genre={{genre.genre_id}}">
+                    {{ genre.name }}
+                </a>
             {% endfor %}
         </p>
         <p><strong>Keywords:</strong>
             {% for keyword in movie.keywords.all %}
-                {{ keyword }}
+                <a href="http://127.0.0.1:8000/recommendation/movie/?keyword={{keyword.keyword_id}}">
+                    {{ keyword.name }}
+                </a>
             {% endfor %}
         </p>
         {% if genre_query %}
