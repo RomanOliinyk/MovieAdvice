@@ -11,39 +11,28 @@
             </button>
             <a class="navbar-brand" href="/recommendation/">MovieAdvice</a>
         </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="{% url 'recommendation:person_list' %}">People</a></li>
                 <li><a href="{% url 'recommendation:movie_list' %}">Movies</a></li>
-
             </ul>
             <ul class="nav navbar-nav navbar-right">
-
+                <li><a href="#">About</a></li>
                 <li>
-                    <form id="searchform" class="navbar-form navbar-left"
-                    action="{% url 'recommendation:movie_list' %}" method="get"
-                    accept-charset="utf-8">
+                    <form id="searchform" class="navbar-form navbar-left" action="{% url 'recommendation:movie_list' %}" method="get" accept-charset="utf-8">
                         <div class="form-group">
-                            <input class="form-control" id="searchbox" name="q"
-                            type="text" placeholder="Search" value="{{ request.GET.q }}">
+                            <input class="form-control" id="searchbox" name="q" type="text" placeholder="Search" value="{{ request.GET.q }}">
                         </div>
                         <button type="submit" value="" class="btn btn-primary">
                             Search
                         </button>
                     </form>
-                    <!--
-
-                    -->
-            </li>
-            <!--
+                </li>
+                <!--
                 <li><a href="#">Log In</a></li>
                 <li><a href="#">Register</a></li>
             -->
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container-fluid -->
 </nav>

@@ -1,40 +1,49 @@
-{% extends "recommendation/main.html" %}
-
-{% block title %}
-    MovieAdvice {{ person.name }}
-{% endblock %}
-
-{% block body %}
+{% extends "recommendation/main.html" %} {% block title %} MovieAdvice {{ person.name }} {% endblock %} {% block body %}
 <!-- Movie Detail Page -->
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">{{ person.name }}</h1>
-        <p><img src="https://image.tmdb.org/t/p/w640{{ person.profile_path }}"
-            alt="{{ person.name }} Poster" class="img-responsive"
-            style="max-width: 200px"></p>
-        <p><strong>IMDB_id:</strong>
-            <a href="http://www.imdb.com/name/{{ person.imdb_id }}/">
-                {{ person.name }}</a></p>
-        <p><strong>Date of birth: </strong> {{ person.birthday }}</p>
-        <p><strong>Place of birth: </strong> {{ person.place_of_birth }}</p>
-        <p><strong>Biography: </strong> {{ person.biography }}</p>
-        <p><strong>Filmorgraphy(CAST): </strong>
-            {% for movie in person.moviecast_set.all %}
-                <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
-                    {{ movie.movie }}
-                </a>
-                - {{ movie.movie_character }}
-            {% endfor %}
-        </p>
-        <p><strong>Filmorgraphy(CREW): </strong>
-            {% for movie in person.moviecrew_set.all %}
-                <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
-                    {{ movie.movie }}
-                </a>
-                - {{ movie.job }}
-            {% endfor %}
-        </p>
+        <div class="media">
+            <div class="media-left">
 
+
+                <img src="https://image.tmdb.org/t/p/w640{{ person.profile_path }}" alt="{{ person.name }} Poster" class="img-responsive" style="max-width: 400px">
+            </div>
+            <div class="media-body">
+
+
+                <h1 class="media-heading">{{ person.name }}</h1>
+                <p><strong>TheMovieDB:</strong>
+                    <a href="https://www.themoviedb.org/person/{{ person.person_id }}/">
+                {{ person.name }}</a></p>
+                <p><strong>IMDB:</strong>
+                    <a href="http://www.imdb.com/name/{{ person.imdb_id }}/">
+                {{ person.name }}</a></p>
+                <p><strong>Date of birth: </strong> {{ person.birthday }}</p>
+                <p><strong>Place of birth: </strong> {{ person.place_of_birth }}</p>
+                <p><strong>Biography: </strong> {{ person.biography }}</p>
+
+            </div>
+        </div>
+        <div class="row">
+
+            {% if person.moviecast_set.all %}
+            <div class="col-sm-12">
+                <p><strong>Filmorgraphy(CAST): </strong> {% for movie in person.moviecast_set.all %}
+                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                    {{ movie.movie }}
+                </a> - {{ movie.movie_character }} {% endfor %}
+                </p>
+            </div>
+            {% endif %} {% if person.moviecrew_set.all %}
+            <div class="col-sm-12">
+                <p><strong>Filmorgraphy(CREW): </strong> {% for movie in person.moviecrew_set.all %}
+                    <a href="{% url 'recommendation:movie_detail' pk=movie.movie_id %}">
+                    {{ movie.movie }}
+                </a> - {{ movie.job }} {% endfor %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
