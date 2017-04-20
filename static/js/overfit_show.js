@@ -1,5 +1,5 @@
 function main() {
-    $('.overfit_people').hide();
+    $('.overfit_data').hide();
 
     $('.overfit').on('click', function() {
         var text = $(this).text();

@@ -1,5 +1,6 @@
 import operator
 from functools import reduce
+from itertools import chain
 
 from django.http import Http404
 from django.shortcuts import render
@@ -31,10 +32,21 @@ class MovieListView(generic.ListView):
         return self._filtered_genres
 
     @property
+    def filtered_keywords(self):
+        if not hasattr(self, '_filtered_keyword'):
+            checked_keywords = self.request.GET.getlist('keyword')
+            self._filtered_keywords = Keyword.objects.filter(
+                pk__in=checked_keywords or [])
+        return self._filtered_keywords
+
+    @property
     def filtered_years(self):
-        if not hasattr(self, '_filtered_years'):
+        if not hasattr(self, 'checked_years'):
             checked_years = self.request.GET.get('year')
-        return checked_years
+        try:
+            return int(checked_years)
+        except:
+            pass
 
 
     def get_queryset(self):
@@ -47,6 +59,10 @@ class MovieListView(generic.ListView):
             genres = self.filtered_genres
             for genre in genres:
                 query = query.filter(genres=genre)
+        if self.filtered_keywords:
+            keywords = self.filtered_keywords
+            for keyword in keywords:
+                query = query.filter(keywords = keyword)
 
         # trying out search
         query_search = self.request.GET.get('q')
@@ -63,8 +79,13 @@ class MovieListView(generic.ListView):
         context = super(MovieListView, self).get_context_data(**kwargs)
         context['genres'] = Genre.objects.all()
         context['filtered_genres'] = self.filtered_genres
-        years = Movie.objects.all().dates('release_date', 'year')
-        context['years'] = years
+
+        context['years'] = Movie.objects.all().dates('release_date', 'year')
+        context['filtered_years'] = self.filtered_years
+
+        context['keywords'] = MovieKeywordCount.objects.all(
+            ).order_by('-count')[:100]
+        context['filtered_keywords'] = self.filtered_keywords
 
         # query_url for pagination without ('page=N')
         query_url = self.request.GET.urlencode()

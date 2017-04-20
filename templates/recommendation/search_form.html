@@ -1,10 +1,11 @@
 <!-- Search Form -->
 <form id="searchform" action="{% url 'recommendation:movie_list' %}" method="get" accept-charset="utf-8">
     <div class="form-group col-sm-8">
-        <input class="form-control" id="searchbox" name="q" type="text" placeholder="Search">
+        <input class="form-control" id="searchbox" name="q" type="text"
+        placeholder="Search movie title" value="{{ request.GET.q }}">
     </div>
     <div class="col-sm-4">
-        <button type="submit" value="" class="btn btn-default">
+        <button type="submit" value="" class="btn btn-primary">
             Search
         </button>
     </div>

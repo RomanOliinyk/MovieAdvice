@@ -1,18 +1,23 @@
 <!-- Pagination -->
 <div>
-    <p>{{ request.}}</p>
+    <p>{{ request.GET.q }}</p>
     {% if is_paginated %}
+    {{ request.GET. }}
     <div class="pagination">
         <span class="page-links">
             {% if page_obj.has_previous %}
-                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}{% if query_url %}&{{ query_url }}{% endif %}">
+                    previous
+                </a>
             {% endif %}
         <span class="page-current">
             Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span> {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if query_url %}&{{ query_url }}{% endif %}">
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query_url %}&{{ query_url }}{% endif %}">
                 next
-            </a> {% endif %}
+            </a>
+            {% endif %}
         </span>
     </div>
     {% endif%}
