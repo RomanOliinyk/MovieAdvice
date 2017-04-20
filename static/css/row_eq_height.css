@@ -30,6 +30,7 @@ h4 {
 [class*="col-"] {
   padding-top: 15px;
   padding-bottom: 15px;
+  /*
   background-image: linear-gradient(to bottom, #fff 0px, #f8f8f8 100%);
   background-image: linear-gradient(to bottom, #fff 0px, #f8f8f8 100%);
   /* border: 1px solid #ddd;

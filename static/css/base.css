@@ -41,6 +41,9 @@ code {
 .text-position {
     text-align: center;
 }
+.btn {
+    margin-bottom: 6px;
+}
 
 
 ::-webkit-input-placeholder {

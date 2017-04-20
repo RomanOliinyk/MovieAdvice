@@ -85,6 +85,14 @@ class MovieKeyword(models.Model):
         # returns string representation of the model object
         return '{}, {}'.format(self.movie, self.keyword)
 
+class MovieKeywordCount(models.Model):
+    keyword = models.ForeignKey('Keyword', on_delete=models.CASCADE,
+        blank=True, null=True)
+    count = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+
 
 class Movie(models.Model):
     movie_id = models.IntegerField(primary_key=True)
@@ -105,10 +113,6 @@ class Movie(models.Model):
     # custom connecitons fields
     genres = models.ManyToManyField('Genre', through='MovieGenre')
     keywords = models.ManyToManyField('Keyword', through='MovieKeyword')
-
-    #cast = self.object.MovieCast.all()
-    #cast = models.ManyToManyField('Person', through='MovieCast')
-    #crew = models.ManyToManyField('Person', through='MovieCrew')
 
 
 

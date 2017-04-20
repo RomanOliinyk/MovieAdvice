@@ -1,21 +1,30 @@
 <!-- Movie Filter -->
 <div class="row">
-    <h4>Choose genres</h4>
+    <h3>Filter search</h3>
     <form class="" action="" method="" id="my-form">
+        <h4>Choose year</h4>
         <p>
         {% if years %}
-            <select class="" name="year">
-                <<option value="any">~~~~</option>
+            <select class="btn btn-default " name="year" >
+
+                <option  value="any" selected="selected">Any</option>
                 {% for year in years reversed %}
-                    <option value="{{ year.year }}">
+                    <option value="{{ year.year }}"
+                        {% if year.year == filtered_years %}
+                        selected="selected"
+                        {% endif %}
+                        >
                         {{ year.year }}
                     </option>
                 {% endfor %}
+
             </select>
         {% endif %}
         </p>
+        <h4>Choose genres</h4>
         <p>
         {% for genre in genres %}
+        <span class="btn btn-default">
             <label>
                 <input type="checkbox" name="genre"
                     {% if genre in filtered_genres %}
@@ -24,11 +33,46 @@
                 value="{{ genre.genre_id }}">
                 {{ genre }}
             </label>
+        </span>
         {% endfor %}
+        </p>
+        <h4>Choose keyword</h4>
+        <p>
+        {% if keywords %}
+            <span>
+            {% for element in keywords|slice:":20" %}
+                <label class="btn btn-default">
+                    <input type="checkbox" name="keyword"
+                    {% if element.keyword in filtered_keywords %}
+                    checked="checked"
+                    {% endif %}
+                    value="{{ element.keyword_id }}">
+                    {{ element.keyword.name }}
+                </label>
+
+            {% endfor %}
+            </span>
+            <button type="button" class="overfit btn btn-info">
+                Show more!
+            </button>
+            <span class="overfit_data">
+            {% for element in keywords|slice:"20:" %}
+                <label class="btn btn-default">
+                    <input type="checkbox" name="keyword"
+                    {% if element.keyword in filtered_keywords %}
+                    checked="checked"
+                    {% endif %}
+                    value="{{ element.keyword_id }}">
+                    {{ element.keyword.name }}
+                </label>
+
+            {% endfor %}
+            </span>
+        {% endif %}
         </p>
 
         <p>
-        <button type="submit" value="genre_list" class="btn btn-default">
+        <button type="submit" value="genre_list" class="btn btn-primary btn-lg">
             Search
         </button>
         </p>

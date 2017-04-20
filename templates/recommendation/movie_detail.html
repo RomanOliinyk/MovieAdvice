@@ -79,7 +79,7 @@
                 <button type="button" class="overfit btn btn-info">
                     Show more!
                 </button>
-                <span class="overfit_people">
+                <span class="overfit_data">
                     {% for cast in cast_list|slice:"5:" %}
                     <a href="{% url 'recommendation:person_detail' pk=cast.person_id %}">
                         {{ cast.person }}
@@ -102,7 +102,7 @@
                 <button type="button" class="overfit btn btn-info">
                     Show more!
                 </button>
-                <span class="overfit_people">
+                <span class="overfit_data">
                     {% for crew in crew_list|slice:"5:" %}
                     <a href="{% url 'recommendation:person_detail' pk=crew.person_id %}">
                         {{ crew.person }}

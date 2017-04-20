@@ -27,9 +27,9 @@
                     accept-charset="utf-8">
                         <div class="form-group">
                             <input class="form-control" id="searchbox" name="q"
-                            type="text" placeholder="Search">
+                            type="text" placeholder="Search" value="{{ request.GET.q }}">
                         </div>
-                        <button type="submit" value="" class="btn btn-default">
+                        <button type="submit" value="" class="btn btn-primary">
                             Search
                         </button>
                     </form>
