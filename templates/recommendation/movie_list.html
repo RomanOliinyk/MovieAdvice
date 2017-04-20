@@ -10,6 +10,11 @@
     <div class="container">
         <h1 class="display-3">Movie list</h1>
 
+        <!-- Search Form -->
+        <div class="row">
+            {% include "recommendation/search_form.html" %}
+        </div>
+
         <!-- Movie Filter -->
         {% include "recommendation/filter.html" %}
 
@@ -34,9 +39,12 @@
                             </a>
                         </h3>
                         <h4><strong>Genre:</strong>
-                            {% for genre in movie.genres.all %}
-                                <i>{{ genre }}</i>
-                            {% endfor %}
+                        {% for genre in movie.genres.all %}
+                            <a href="/recommendation/movie/?genre={{genre.keyword_id}}"
+                            class="btn btn-default btn-sm">
+                                {{ genre.name }}
+                            </a>
+                        {% endfor %}
                         </h4>
 
                     </div>

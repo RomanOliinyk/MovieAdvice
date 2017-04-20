@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^movie/$', views.MovieListView.as_view(), name='movie_list'),
     url(r'^movie/(?P<pk>\d+)/', views.MovieDetailView.as_view(),
         name='movie_detail'),
-    url(r'^person/$', views.PersonListView.as_view(), name='person_list'),
+    url(r'^people/$', views.PersonListView.as_view(), name='person_list'),
     url(r'^person/(?P<pk>[0-9]+)/$', views.PersonDetailView.as_view(),
         name='person_detail'),
 ]
